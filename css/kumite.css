@@ -1,0 +1,400 @@
+/* Kumite Match Styles */
+
+.kumite-setup {
+    padding: var(--spacing-8) 0;
+}
+
+.page-title {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.setup-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.setup-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.setup-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.btn-large {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px 32px;
+    font-size: 20px;
+    display: flex;
+}
+
+/* Scoreboard */
+.kumite-scoreboard {
+    min-height: calc(100vh - 72px);
+    background-color: var(--color-bg-page);
+    padding: var(--spacing-4);
+}
+
+.scoreboard-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: var(--spacing-4);
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .scoreboard-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+}
+
+/* Timer Section */
+.timer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-4);
+    padding: var(--spacing-6);
+    background-color: var(--color-bg-surface);
+    border: 2px solid var(--color-neutral-200);
+    border-radius: var(--radius-xl);
+    position: sticky;
+    top: 90px;
+}
+
+[data-theme="dark"] .timer-section {
+    background-color: var(--color-neutral-800);
+    border-color: var(--color-neutral-700);
+}
+
+.timer-display {
+    font-size: 96px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1;
+    text-align: center;
+    letter-spacing: -0.02em;
+}
+
+@media (max-width: 768px) {
+    .timer-display {
+        font-size: 64px;
+    }
+}
+
+.timer-display.warning {
+    color: var(--color-warning-500);
+    animation: pulse 1s infinite;
+}
+
+.timer-display.danger {
+    color: var(--color-error-500);
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+.timer-controls {
+    display: flex;
+    gap: var(--spacing-2);
+}
+
+.timer-btn {
+    width: 64px;
+    height: 64px;
+    border: 2px solid var(--color-neutral-200);
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--duration-fast);
+}
+
+[data-theme="dark"] .timer-btn {
+    background-color: var(--color-neutral-900);
+    border-color: var(--color-neutral-700);
+}
+
+.timer-btn svg {
+    width: 28px;
+    height: 28px;
+    color: var(--color-text-primary);
+}
+
+.timer-btn:hover {
+    transform: scale(1.05);
+    border-color: var(--color-primary-500);
+}
+
+.timer-btn-danger:hover {
+    border-color: var(--color-error-500);
+    background-color: var(--color-error-500);
+}
+
+.timer-btn-danger:hover svg {
+    color: white;
+}
+
+/* Competitor Panels */
+.competitor-panel {
+    background-color: var(--color-bg-surface);
+    border: 3px solid;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+[data-theme="dark"] .competitor-panel {
+    background-color: var(--color-neutral-800);
+}
+
+.panel-red {
+    border-color: #DC2626;
+}
+
+.panel-blue {
+    border-color: #2563EB;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.competitor-badge {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+}
+
+.badge-red {
+    background-color: #DC2626;
+}
+
+.badge-blue {
+    background-color: #2563EB;
+}
+
+.competitor-name {
+    font-size: 28px;
+    font-weight: 700;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .competitor-name {
+        font-size: 20px;
+    }
+}
+
+/* Score Display */
+.score-display {
+    text-align: center;
+    padding: var(--spacing-6);
+    background: linear-gradient(135deg, var(--color-neutral-50) 0%, var(--color-neutral-100) 100%);
+    border-radius: var(--radius-lg);
+}
+
+[data-theme="dark"] .score-display {
+    background: linear-gradient(135deg, var(--color-neutral-900) 0%, var(--color-neutral-800) 100%);
+}
+
+.score-number {
+    font-size: 120px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .score-number {
+        font-size: 80px;
+    }
+}
+
+.panel-red .score-number {
+    color: #DC2626;
+}
+
+.panel-blue .score-number {
+    color: #2563EB;
+}
+
+/* Action Buttons Grid */
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-2);
+}
+
+.action-btn {
+    min-height: 80px;
+    padding: var(--spacing-3);
+    border: 2px solid var(--color-neutral-200);
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-1);
+    transition: all var(--duration-fast);
+}
+
+[data-theme="dark"] .action-btn {
+    background-color: var(--color-neutral-900);
+    border-color: var(--color-neutral-700);
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-label {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.action-value {
+    font-size: 24px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+}
+
+/* Point Buttons */
+.action-yuko {
+    border-color: #10B981;
+}
+
+.action-yuko:hover {
+    background-color: #10B981;
+    color: white;
+    transform: scale(1.05);
+}
+
+.action-wazaari {
+    border-color: #F59E0B;
+}
+
+.action-wazaari:hover {
+    background-color: #F59E0B;
+    color: white;
+    transform: scale(1.05);
+}
+
+.action-ippon {
+    border-color: #DC2626;
+}
+
+.action-ippon:hover {
+    background-color: #DC2626;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Penalty Buttons */
+.action-penalty {
+    border-color: var(--color-neutral-500);
+}
+
+.action-penalty:hover {
+    background-color: var(--color-error-500);
+    border-color: var(--color-error-500);
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Penalties Display */
+.penalties-display {
+    padding: var(--spacing-3);
+    background-color: var(--color-neutral-50);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+[data-theme="dark"] .penalties-display {
+    background-color: var(--color-neutral-900);
+}
+
+.penalties-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-right: var(--spacing-2);
+}
+
+.penalties-list {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--color-error-500);
+}
+
+/* Touch optimization for tablets */
+@media (hover: none) and (pointer: coarse) {
+    .action-btn {
+        min-height: 96px;
+    }
+    
+    .timer-btn {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+    .scoreboard-container {
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-rows: 1fr;
+    }
+    
+    .timer-section {
+        position: static;
+    }
+    
+    .competitor-panel {
+        padding: var(--spacing-3);
+    }
+    
+    .score-number {
+        font-size: 60px;
+    }
+    
+    .timer-display {
+        font-size: 48px;
+    }
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de puntuación profesional para competencias de Karate WKF">
+    <meta name="theme-color" content="#DC2626">
+    <title>Evaluación Kata - WKF Karate Scoring</title>
+    
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/kata.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navegación Principal -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <h1 class="nav-title">WKF Scoring</h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="/" class="nav-link">Dashboard</a>
+                <a href="/kata.html" class="nav-link active">Kata</a>
+                <a href="/kumite.html" class="nav-link">Kumite</a>
+                <a href="/resultados.html" class="nav-link">Resultados</a>
+            </div>
+            
+            <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg class="moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header de Evaluación -->
+    <section class="kata-header">
+        <div class="container">
+            <h2 class="page-title">Evaluación Kata</h2>
+            <div class="competitor-info" id="competitorInfo">
+                <select id="competitorSelect" class="form-select">
+                    <option value="">Seleccionar Competidor...</option>
+                </select>
+                <div class="info-display" id="infoDisplay" style="display: none;">
+                    <span class="competitor-name" id="competitorName"></span>
+                    <span class="competitor-category" id="competitorCategory"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panel de Evaluación -->
+    <section class="section">
+        <div class="container">
+            <!-- Paneles de Jueces -->
+            <div class="judges-grid" id="judgesGrid">
+                <!-- Generados dinámicamente por JS -->
+            </div>
+
+            <!-- Resultado Final -->
+            <div class="result-panel" id="resultPanel" style="display: none;">
+                <div class="result-header">
+                    <h3>Puntuación Final WKF</h3>
+                    <svg class="result-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                <div class="result-score" id="finalScore">0.00</div>
+                <div class="result-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Técnica (70%):</span>
+                        <span class="detail-value" id="technicalScore">0.00</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Atletismo (30%):</span>
+                        <span class="detail-value" id="athleticScore">0.00</span>
+                    </div>
+                </div>
+                <div class="result-breakdown">
+                    <p class="breakdown-text">Descartadas: <span id="discardedScores"></span></p>
+                    <p class="breakdown-text">Promediadas: <span id="averagedScores"></span></p>
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="action-buttons">
+                <button class="btn btn-outline" onclick="resetEvaluation()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        <path d="M3 21v-5h5"/>
+                    </svg>
+                    Reiniciar
+                </button>
+                <button class="btn btn-primary" id="saveBtn" onclick="saveEvaluation()" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    Guardar Evaluación
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Sistema WKF de Puntuación &copy; 2025 | Desarrollado con Supabase</p>
+            <p class="footer-status">
+                Backend: <span class="status-online">En línea</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/config.js"></script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/kata.js"></script>
+</body>
+</html>

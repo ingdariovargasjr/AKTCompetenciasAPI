@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de puntuación profesional para competencias de Karate WKF">
+    <meta name="theme-color" content="#DC2626">
+    <title>Combate Kumite - WKF Karate Scoring</title>
+    
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/kumite.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navegación Principal -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <h1 class="nav-title">WKF Scoring</h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="/" class="nav-link">Dashboard</a>
+                <a href="/kata.html" class="nav-link">Kata</a>
+                <a href="/kumite.html" class="nav-link active">Kumite</a>
+                <a href="/resultados.html" class="nav-link">Resultados</a>
+            </div>
+            
+            <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg class="moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Configuración del Combate -->
+    <section class="kumite-setup" id="setupSection">
+        <div class="container">
+            <h2 class="page-title">Nuevo Combate Kumite</h2>
+            
+            <div class="setup-grid">
+                <div class="setup-card">
+                    <label class="setup-label">Competidor Rojo (AKA)</label>
+                    <select id="competitorRed" class="form-select">
+                        <option value="">Seleccionar...</option>
+                    </select>
+                </div>
+                
+                <div class="setup-card">
+                    <label class="setup-label">Competidor Azul (AO)</label>
+                    <select id="competitorBlue" class="form-select">
+                        <option value="">Seleccionar...</option>
+                    </select>
+                </div>
+                
+                <div class="setup-card">
+                    <label class="setup-label">Duración del Combate</label>
+                    <select id="duration" class="form-select">
+                        <option value="120">2 minutos</option>
+                        <option value="180" selected>3 minutos</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary btn-large" onclick="startMatch()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+                Iniciar Combate
+            </button>
+        </div>
+    </section>
+
+    <!-- Marcador del Combate -->
+    <section class="kumite-scoreboard" id="scoreboardSection" style="display: none;">
+        <div class="scoreboard-container">
+            <!-- Temporizador Central -->
+            <div class="timer-section">
+                <div class="timer-display" id="timerDisplay">03:00</div>
+                <div class="timer-controls">
+                    <button class="timer-btn" id="pauseBtn" onclick="togglePause()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="6" y="4" width="4" height="16"/>
+                            <rect x="14" y="4" width="4" height="16"/>
+                        </svg>
+                    </button>
+                    <button class="timer-btn timer-btn-danger" onclick="endMatch()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Panel Rojo -->
+            <div class="competitor-panel panel-red">
+                <div class="panel-header">
+                    <div class="competitor-badge badge-red">AKA</div>
+                    <h3 class="competitor-name" id="nameRed"></h3>
+                </div>
+                
+                <div class="score-display">
+                    <div class="score-number" id="scoreRed">0</div>
+                </div>
+                
+                <div class="action-grid">
+                    <button class="action-btn action-yuko" onclick="addPoint('red', 1)">
+                        <span class="action-label">YUKO</span>
+                        <span class="action-value">+1</span>
+                    </button>
+                    <button class="action-btn action-wazaari" onclick="addPoint('red', 2)">
+                        <span class="action-label">WAZA-ARI</span>
+                        <span class="action-value">+2</span>
+                    </button>
+                    <button class="action-btn action-ippon" onclick="addPoint('red', 3)">
+                        <span class="action-label">IPPON</span>
+                        <span class="action-value">+3</span>
+                    </button>
+                    <button class="action-btn action-penalty" onclick="addPenalty('red', 'C1')">
+                        <span class="action-label">C1</span>
+                    </button>
+                    <button class="action-btn action-penalty" onclick="addPenalty('red', 'C2')">
+                        <span class="action-label">C2</span>
+                    </button>
+                    <button class="action-btn action-penalty" onclick="addPenalty('red', 'Hansoku')">
+                        <span class="action-label">HANSOKU</span>
+                    </button>
+                </div>
+                
+                <div class="penalties-display">
+                    <span class="penalties-label">Penalizaciones:</span>
+                    <span class="penalties-list" id="penaltiesRed">-</span>
+                </div>
+            </div>
+
+            <!-- Panel Azul -->
+            <div class="competitor-panel panel-blue">
+                <div class="panel-header">
+                    <div class="competitor-badge badge-blue">AO</div>
+                    <h3 class="competitor-name" id="nameBlue"></h3>
+                </div>
+                
+                <div class="score-display">
+                    <div class="score-number" id="scoreBlue">0</div>
+                </div>
+                
+                <div class="action-grid">
+                    <button class="action-btn action-yuko" onclick="addPoint('blue', 1)">
+                        <span class="action-label">YUKO</span>
+                        <span class="action-value">+1</span>
+                    </button>
+                    <button class="action-btn action-wazaari" onclick="addPoint('blue', 2)">
+                        <span class="action-label">WAZA-ARI</span>
+                        <span class="action-value">+2</span>
+                    </button>
+                    <button class="action-btn action-ippon" onclick="addPoint('blue', 3)">
+                        <span class="action-label">IPPON</span>
+                        <span class="action-value">+3</span>
+                    </button>
+                    <button class="action-btn action-penalty" onclick="addPenalty('blue', 'C1')">
+                        <span class="action-label">C1</span>
+                    </button>
+                    <button class="action-btn action-penalty" onclick="addPenalty('blue', 'C2')">
+                        <span class="action-label">C2</span>
+                    </button>
+                    <button class="action-btn action-penalty" onclick="addPenalty('blue', 'Hansoku')">
+                        <span class="action-label">HANSOKU</span>
+                    </button>
+                </div>
+                
+                <div class="penalties-display">
+                    <span class="penalties-label">Penalizaciones:</span>
+                    <span class="penalties-list" id="penaltiesBlue">-</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="/js/config.js"></script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/kumite.js"></script>
+</body>
+</html>

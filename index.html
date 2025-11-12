@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de puntuación profesional para competencias de Karate WKF">
+    <meta name="theme-color" content="#DC2626">
+    <title>WKF Karate Scoring - Sistema de Puntuación Profesional</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navegación Principal -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <h1 class="nav-title">WKF Scoring</h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Dashboard</a>
+                <a href="/kata.html" class="nav-link">Kata</a>
+                <a href="/kumite.html" class="nav-link">Kumite</a>
+                <a href="/resultados.html" class="nav-link">Resultados</a>
+            </div>
+            
+            <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+                <svg class="moon-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2 class="hero-title">Sistema WKF de Puntuación</h2>
+            <p class="hero-subtitle">Gestión profesional de competencias de Kata y Kumite</p>
+        </div>
+    </section>
+
+    <!-- Selector de Rol -->
+    <section class="section">
+        <div class="container">
+            <h3 class="section-title">Seleccionar Rol</h3>
+            <div class="card-grid">
+                <div class="card card-hover" onclick="location.href='/kata.html'">
+                    <div class="card-icon mode-judge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="8.5" cy="7" r="4"/>
+                            <polyline points="17 11 19 13 23 9"/>
+                        </svg>
+                    </div>
+                    <h4 class="card-title">Modo Juez</h4>
+                    <p class="card-description">Interfaz simplificada para evaluación de Kata y Kumite</p>
+                    <button class="btn btn-primary btn-block">Acceder como Juez</button>
+                </div>
+
+                <div class="card card-hover" onclick="location.href='/admin.html'">
+                    <div class="card-icon mode-admin">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h4 class="card-title">Modo Administrador</h4>
+                    <p class="card-description">Control completo de competencias, categorías y resultados</p>
+                    <button class="btn btn-secondary btn-block">Acceder como Admin</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Acceso Rápido -->
+    <section class="section">
+        <div class="container">
+            <h3 class="section-title">Acceso Rápido</h3>
+            <div class="button-group">
+                <button class="btn btn-outline" onclick="location.href='/kata.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    Nueva Evaluación Kata
+                </button>
+                <button class="btn btn-outline" onclick="location.href='/kumite.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    Nuevo Combate Kumite
+                </button>
+                <button class="btn btn-outline" onclick="location.href='/resultados.html'">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    Ver Resultados
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Sistema WKF de Puntuación &copy; 2025 | Desarrollado con Supabase</p>
+            <p class="footer-status">
+                Backend: <span class="status-online">En línea</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/js/config.js"></script>
+    <script src="/js/theme.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
