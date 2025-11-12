@@ -1,7 +1,7 @@
 // Kata Evaluation Logic
 
 let currentCompetitor = null;
-let judgeScores = Array(7).fill().map(() => ({ technical: null, athletic: null }));
+let judgeScores = Array(7).fill().map(() => ({ score: null }));
 
 // Inicializar página
 document.addEventListener('DOMContentLoaded', async () => {
@@ -39,38 +39,19 @@ function createJudgePanel(judgeNumber) {
         
         <div class="score-group">
             <div class="score-label">
-                <span>Técnica</span>
-                <span class="score-percentage">70%</span>
+                <span>Puntuación Final</span>
+                <span class="score-percentage">1-10</span>
             </div>
             <div class="score-input-wrapper">
                 <input 
                     type="number" 
                     class="score-input" 
-                    id="technical-${judgeNumber}"
+                    id="score-${judgeNumber}"
                     placeholder="0.00"
                     min="0"
                     max="10"
                     step="0.1"
-                    onchange="updateScore(${judgeNumber}, 'technical', this.value)"
-                >
-            </div>
-        </div>
-        
-        <div class="score-group">
-            <div class="score-label">
-                <span>Atletismo</span>
-                <span class="score-percentage">30%</span>
-            </div>
-            <div class="score-input-wrapper">
-                <input 
-                    type="number" 
-                    class="score-input" 
-                    id="athletic-${judgeNumber}"
-                    placeholder="0.00"
-                    min="0"
-                    max="10"
-                    step="0.1"
-                    onchange="updateScore(${judgeNumber}, 'athletic', this.value)"
+                    onchange="updateScore(${judgeNumber}, 'score', this.value)"
                 >
             </div>
         </div>
@@ -93,14 +74,11 @@ function updateScore(judgeNumber, type, value) {
     
     judgeScores[index][type] = numValue;
     
-    // Calcular total ponderado del juez (técnica 70% + atletismo 30%)
-    if (judgeScores[index].technical !== null && judgeScores[index].athletic !== null) {
-        const total = (judgeScores[index].technical * 0.7) + (judgeScores[index].athletic * 0.3);
-        document.getElementById(`judge-total-${judgeNumber}`).textContent = total.toFixed(2);
-        
-        // Marcar panel como completado
-        document.getElementById(`judge-${judgeNumber}`).classList.add('completed');
-    }
+    // Mostrar puntuación directa del juez
+    document.getElementById(`judge-total-${judgeNumber}`).textContent = numValue.toFixed(2);
+    
+    // Marcar panel como completado
+    document.getElementById(`judge-${judgeNumber}`).classList.add('completed');
     
     // Calcular resultado final si todos los jueces han evaluado
     calculateFinalScore();
@@ -109,9 +87,7 @@ function updateScore(judgeNumber, type, value) {
 // Calcular puntuación final WKF
 function calculateFinalScore() {
     // Verificar que todos los jueces hayan puntuado
-    const allScoresComplete = judgeScores.every(score => 
-        score.technical !== null && score.athletic !== null
-    );
+    const allScoresComplete = judgeScores.every(score => score.score !== null);
     
     if (!allScoresComplete) {
         document.getElementById('resultPanel').style.display = 'none';
@@ -119,13 +95,11 @@ function calculateFinalScore() {
         return;
     }
     
-    // Calcular totales ponderados de cada juez
-    const judgeTotal = judgeScores.map(score => 
-        (score.technical * 0.7) + (score.athletic * 0.3)
-    );
+    // Obtener todas las puntuaciones directas
+    const allScores = judgeScores.map(score => score.score);
     
     // Ordenar para encontrar mayor y menor
-    const sortedScores = [...judgeTotal].sort((a, b) => a - b);
+    const sortedScores = [...allScores].sort((a, b) => a - b);
     
     // Eliminar la mayor y la menor (posiciones 0 y 6 del array ordenado)
     const lowestScore = sortedScores[0];
@@ -137,20 +111,10 @@ function calculateFinalScore() {
     // Calcular promedio de las 5 restantes
     const finalScore = middleFive.reduce((sum, score) => sum + score, 0) / 5;
     
-    // Calcular promedios de técnica y atletismo para mostrar desglose
-    const technicalScores = judgeScores.map(s => s.technical);
-    const athleticScores = judgeScores.map(s => s.athletic);
-    
-    const sortedTech = [...technicalScores].sort((a, b) => a - b);
-    const sortedAth = [...athleticScores].sort((a, b) => a - b);
-    
-    const avgTechnical = sortedTech.slice(1, 6).reduce((sum, s) => sum + s, 0) / 5;
-    const avgAthletic = sortedAth.slice(1, 6).reduce((sum, s) => sum + s, 0) / 5;
-    
     // Mostrar resultado
     document.getElementById('finalScore').textContent = finalScore.toFixed(2);
-    document.getElementById('technicalScore').textContent = avgTechnical.toFixed(2);
-    document.getElementById('athleticScore').textContent = avgAthletic.toFixed(2);
+    document.getElementById('technicalScore').textContent = 'N/A';
+    document.getElementById('athleticScore').textContent = 'N/A';
     document.getElementById('discardedScores').textContent = 
         `${lowestScore.toFixed(2)} (menor), ${highestScore.toFixed(2)} (mayor)`;
     document.getElementById('averagedScores').textContent = 
@@ -227,8 +191,7 @@ async function saveEvaluation() {
             round_id: rounds[0].id,
             competitor_id: currentCompetitor.id,
             judge_number: index + 1,
-            technical_score: score.technical,
-            athletic_score: score.athletic
+            final_score: score.score
         }));
         
         // Insertar puntuaciones
@@ -265,12 +228,11 @@ async function saveEvaluation() {
 // Reiniciar evaluación
 function resetEvaluation() {
     if (confirm('¿Está seguro de reiniciar la evaluación? Se perderán todos los datos.')) {
-        judgeScores = Array(7).fill().map(() => ({ technical: null, athletic: null }));
+        judgeScores = Array(7).fill().map(() => ({ score: null }));
         
         // Limpiar inputs
         for (let i = 1; i <= 7; i++) {
-            document.getElementById(`technical-${i}`).value = '';
-            document.getElementById(`athletic-${i}`).value = '';
+            document.getElementById(`score-${i}`).value = '';
             document.getElementById(`judge-total-${i}`).textContent = '0.00';
             document.getElementById(`judge-${i}`).classList.remove('completed');
         }

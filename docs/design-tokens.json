@@ -1,0 +1,147 @@
+{
+  "$schema": "https://tr.designtokens.org/format/v1/",
+  "color": {
+    "primary": {
+      "50": { "value": "#FEF2F2", "type": "color" },
+      "100": { "value": "#FEE2E2", "type": "color" },
+      "400": { "value": "#F87171", "type": "color", "description": "Dark mode rojo" },
+      "500": { "value": "#DC2626", "type": "color", "description": "Competidor rojo, alertas" },
+      "600": { "value": "#B91C1C", "type": "color" },
+      "900": { "value": "#7F1D1D", "type": "color" }
+    },
+    "secondary": {
+      "50": { "value": "#EFF6FF", "type": "color" },
+      "100": { "value": "#DBEAFE", "type": "color" },
+      "400": { "value": "#60A5FA", "type": "color", "description": "Dark mode azul" },
+      "500": { "value": "#3B82F6", "type": "color", "description": "Competidor azul, acciones" },
+      "600": { "value": "#2563EB", "type": "color" },
+      "900": { "value": "#1E3A8A", "type": "color" }
+    },
+    "neutral": {
+      "50": { "value": "#FAFAFA", "type": "color" },
+      "100": { "value": "#F5F5F5", "type": "color" },
+      "200": { "value": "#E5E5E5", "type": "color" },
+      "500": { "value": "#A3A3A3", "type": "color" },
+      "700": { "value": "#404040", "type": "color" },
+      "800": { "value": "#27272A", "type": "color", "description": "Dark mode superficie" },
+      "900": { "value": "#171717", "type": "color" }
+    },
+    "background": {
+      "page-light": { "value": "#FAFAFA", "type": "color" },
+      "page-dark": { "value": "#0A0A0A", "type": "color" },
+      "surface-light": { "value": "#FFFFFF", "type": "color" },
+      "surface-dark": { "value": "#18181B", "type": "color" }
+    },
+    "semantic": {
+      "success-50": { "value": "#ECFDF5", "type": "color" },
+      "success-400": { "value": "#34D399", "type": "color", "description": "Dark mode" },
+      "success-500": { "value": "#10B981", "type": "color", "description": "Victoria" },
+      "warning-50": { "value": "#FFFBEB", "type": "color" },
+      "warning-400": { "value": "#FBBF24", "type": "color", "description": "Dark mode" },
+      "warning-500": { "value": "#F59E0B", "type": "color", "description": "C1, advertencias" },
+      "error-50": { "value": "#FEF2F2", "type": "color" },
+      "error-400": { "value": "#F87171", "type": "color", "description": "Dark mode" },
+      "error-500": { "value": "#EF4444", "type": "color", "description": "Penalizaciones" }
+    }
+  },
+  "typography": {
+    "fontFamily": {
+      "primary": { "value": "Inter, system-ui, -apple-system, sans-serif", "type": "fontFamily" },
+      "mono": { "value": "'Roboto Mono', 'Courier New', monospace", "type": "fontFamily" }
+    },
+    "fontSize": {
+      "hero": { "value": "64px", "type": "dimension", "description": "Solo dashboard" },
+      "title": { "value": "48px", "type": "dimension", "description": "Encabezados página" },
+      "subtitle": { "value": "32px", "type": "dimension", "description": "Títulos sección" },
+      "large": { "value": "24px", "type": "dimension" },
+      "body": { "value": "18px", "type": "dimension", "description": "Texto estándar" },
+      "small": { "value": "14px", "type": "dimension" },
+      "caption": { "value": "12px", "type": "dimension" },
+      "scoreboard": { "value": "96px", "type": "dimension", "description": "Puntajes Kumite" },
+      "timer": { "value": "72px", "type": "dimension", "description": "Temporizador" },
+      "judge-score": { "value": "40px", "type": "dimension", "description": "Puntajes Kata" }
+    },
+    "fontWeight": {
+      "regular": { "value": "400", "type": "fontWeight" },
+      "medium": { "value": "500", "type": "fontWeight" },
+      "semibold": { "value": "600", "type": "fontWeight" },
+      "bold": { "value": "700", "type": "fontWeight" }
+    },
+    "lineHeight": {
+      "tight": { "value": "1.1", "type": "number", "description": "Heros, scoreboards" },
+      "snug": { "value": "1.2", "type": "number", "description": "Headings" },
+      "normal": { "value": "1.5", "type": "number", "description": "Body text" },
+      "relaxed": { "value": "1.6", "type": "number", "description": "Intro paragraphs" }
+    },
+    "letterSpacing": {
+      "tight": { "value": "-0.02em", "type": "dimension" },
+      "normal": { "value": "0em", "type": "dimension" },
+      "wide": { "value": "0.01em", "type": "dimension" }
+    }
+  },
+  "spacing": {
+    "1": { "value": "8px", "type": "dimension" },
+    "2": { "value": "16px", "type": "dimension" },
+    "3": { "value": "24px", "type": "dimension" },
+    "4": { "value": "32px", "type": "dimension", "description": "Padding mínimo tarjetas" },
+    "6": { "value": "48px", "type": "dimension", "description": "Padding generoso" },
+    "8": { "value": "64px", "type": "dimension", "description": "Separación secciones" },
+    "12": { "value": "96px", "type": "dimension", "description": "Hero spacing" },
+    "16": { "value": "128px", "type": "dimension", "description": "Espaciado dramático" }
+  },
+  "borderRadius": {
+    "sm": { "value": "8px", "type": "dimension", "description": "Badges pequeños" },
+    "md": { "value": "12px", "type": "dimension", "description": "Botones, inputs" },
+    "lg": { "value": "16px", "type": "dimension", "description": "Tarjetas" },
+    "xl": { "value": "24px", "type": "dimension", "description": "Modales" },
+    "full": { "value": "9999px", "type": "dimension", "description": "Circular" }
+  },
+  "boxShadow": {
+    "sm": { 
+      "value": "0 1px 2px rgba(0, 0, 0, 0.05)", 
+      "type": "shadow",
+      "description": "Bordes sutiles" 
+    },
+    "card": { 
+      "value": "0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06)", 
+      "type": "shadow",
+      "description": "Tarjetas estáticas" 
+    },
+    "card-hover": { 
+      "value": "0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05)", 
+      "type": "shadow",
+      "description": "Tarjetas hover" 
+    },
+    "modal": { 
+      "value": "0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04)", 
+      "type": "shadow",
+      "description": "Modales, menús" 
+    }
+  },
+  "animation": {
+    "duration": {
+      "fast": { "value": "200ms", "type": "duration", "description": "Hovers, clicks" },
+      "base": { "value": "250ms", "type": "duration", "description": "Transiciones estándar" },
+      "slow": { "value": "300ms", "type": "duration", "description": "Modales, drawers" }
+    },
+    "easing": {
+      "out": { "value": "cubic-bezier(0, 0, 0.2, 1)", "type": "cubicBezier", "description": "90% casos" },
+      "in-out": { "value": "cubic-bezier(0.4, 0, 0.2, 1)", "type": "cubicBezier", "description": "Elegancia" }
+    }
+  },
+  "breakpoint": {
+    "sm": { "value": "640px", "type": "dimension" },
+    "md": { "value": "768px", "type": "dimension", "description": "Breakpoint principal jueces" },
+    "lg": { "value": "1024px", "type": "dimension" },
+    "xl": { "value": "1280px", "type": "dimension" },
+    "2xl": { "value": "1536px", "type": "dimension" }
+  },
+  "container": {
+    "maxWidth": { "value": "1400px", "type": "dimension" },
+    "padding": {
+      "desktop": { "value": "64px", "type": "dimension" },
+      "tablet": { "value": "48px", "type": "dimension" },
+      "mobile": { "value": "32px", "type": "dimension" }
+    }
+  }
+}

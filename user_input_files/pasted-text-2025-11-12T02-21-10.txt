@@ -1,0 +1,307 @@
+🥋 Prompt maestro para generar aplicación de puntuación de Karate (Kata y Kumite) según el sistema WKF
+🔹 Objetivo general:
+
+Crear una aplicación web para la evaluación, puntuación y gestión de competencias de Karate bajo las reglas del sistema WKF (World Karate Federation), que contemple tanto Kata como Kumite, incluyendo categorías de edad, género, peso, modalidad individual y por equipos, con almacenamiento automático y generación de resultados finales.
+
+🧩 Módulo 1: Estructura general
+Funcionalidades principales:
+
+Selección de categoría:
+
+Kata o Kumite
+
+Rama: Femenil / Varonil
+
+Subcategoría: Infantil, Cadete, Junior, U21, Senior
+
+Tipo: Individual o Equipo
+
+Registro de competidor o equipo:
+
+Nombre completo / Nombre del equipo
+
+País / Estado / Dojo
+
+Fecha de nacimiento
+
+Peso (solo Kumite)
+
+Categoría asignada automáticamente según edad y peso
+
+Número de dorsal o ID de competencia
+
+Gestión de rondas:
+
+Ronda preliminar
+
+Semifinal
+
+Final
+
+Auto-guardado después de cada ronda
+
+Posibilidad de reiniciar ronda sin borrar el histórico
+
+Modo de competencia:
+
+Kata: Sistema de jueces con puntuación promedio (7 jueces)
+
+Kumite: Sistema de puntos en tiempo real con marcador automático
+
+🥇 Módulo 2: Sistema de puntuación para Kata (WKF)
+Configuración:
+
+7 jueces por presentación.
+
+Cada juez da dos calificaciones:
+
+Técnica (70%)
+
+Atletismo (30%)
+
+Se eliminan automáticamente la mayor y menor puntuación.
+
+Se calcula la media de las cinco puntuaciones restantes.
+
+Resultado final mostrado en tiempo real.
+
+Ejemplo de estructura de datos:
+{
+  "competidor": "Luis García",
+  "categoria": "Junior Masculino Kata Individual",
+  "jueces": [
+    {"nombre": "Juez 1", "tecnica": 8.4, "atletismo": 8.2},
+    {"nombre": "Juez 2", "tecnica": 8.6, "atletismo": 8.5},
+    {"nombre": "Juez 3", "tecnica": 8.5, "atletismo": 8.4},
+    {"nombre": "Juez 4", "tecnica": 8.7, "atletismo": 8.6},
+    {"nombre": "Juez 5", "tecnica": 8.3, "atletismo": 8.2},
+    {"nombre": "Juez 6", "tecnica": 8.6, "atletismo": 8.5},
+    {"nombre": "Juez 7", "tecnica": 8.8, "atletismo": 8.7}
+  ],
+  "puntaje_final": 25.34
+}
+
+Funciones:
+
+Cálculo automático del puntaje final.
+
+Visualización dinámica de resultados por competidor y por ronda.
+
+Exportación en formato PDF y CSV.
+
+Historial de resultados guardado automáticamente.
+
+🥊 Módulo 3: Sistema de puntuación para Kumite
+Parámetros:
+
+Duración configurable (2 o 3 minutos).
+
+Contador de puntos en tiempo real:
+
+Yuko (1 punto)
+
+Waza-ari (2 puntos)
+
+Ippon (3 puntos)
+
+Registro de penalizaciones (C1, C2, Hansoku, Kiken).
+
+Temporizador y control de cronómetro.
+
+Detección automática de victoria por puntaje o penalización.
+
+Ejemplo de estructura de datos:
+{
+  "competidor_rojo": "Carlos Pérez",
+  "competidor_azul": "Miguel Hernández",
+  "puntos_rojo": 3,
+  "puntos_azul": 5,
+  "penalizaciones_rojo": ["C1"],
+  "penalizaciones_azul": [],
+  "resultado": "Azul gana por 5-3"
+}
+
+👩‍🦱👨‍🦱 Módulo 4: Categorías y divisiones oficiales
+🔸 Infantil
+
+Sin división por peso (solo edad)
+
+Modalidades: Kata individual / Kata equipo / Kumite individual
+
+🔸 Cadete
+
+Femenil:
+
+-47 kg
+
+-54 kg
+
++54 kg
+
+Kumite equipo
+
+Varonil:
+
+-52 kg
+
+-57 kg
+
+-63 kg
+
+-70 kg
+
++70 kg
+
+Kumite equipo
+
+🔸 Junior
+
+Femenil:
+
+-48 kg
+
+-53 kg
+
+-59 kg
+
++59 kg
+
+Kumite equipo
+
+Varonil:
+
+-55 kg
+
+-61 kg
+
+-68 kg
+
+-76 kg
+
++76 kg
+
+Kumite equipo
+
+🔸 U21
+
+Femenil:
+
+-50 kg
+
+-55 kg
+
+-61 kg
+
+-68 kg
+
++68 kg
+
+Kumite equipo
+
+Varonil:
+
+-60 kg
+
+-67 kg
+
+-75 kg
+
+-84 kg
+
++84 kg
+
+Kumite equipo
+
+🔸 Senior
+
+Femenil:
+
+-50 kg
+
+-55 kg
+
+-61 kg
+
+-68 kg
+
++68 kg
+
+Kumite equipo
+
+Varonil:
+
+-60 kg
+
+-67 kg
+
+-75 kg
+
+-84 kg
+
++84 kg
+
+Kumite equipo
+
+⚙️ Módulo 5: Reglas automáticas y validaciones
+
+Asignación automática de categoría por edad y peso:
+
+La app determina automáticamente en qué categoría entra un competidor según su edad (fecha de nacimiento) y peso registrado.
+
+Si el competidor pesa exactamente el límite, se le asigna a la categoría inmediata superior.
+
+Auto-guardado:
+
+Cada vez que se cierra una ronda, se guarda automáticamente la información en el historial.
+
+Validaciones:
+
+No se puede registrar un competidor sin categoría válida.
+
+No se pueden duplicar nombres de competidor o equipo en la misma ronda.
+
+Los jueces no pueden calificar el mismo atleta más de una vez por ronda.
+
+📊 Módulo 6: Resultados y reportes
+
+Ranking automático de puntajes.
+
+Panel de resultados con filtros por:
+
+Categoría
+
+Ronda
+
+Rama (F/M)
+
+Tipo (Individual/Equipo)
+
+Generación automática de medalleros por Dojo o país.
+
+Exportación a PDF y CSV.
+
+🎨 Interfaz sugerida
+
+Diseño limpio, responsive, con TailwindCSS.
+
+Dos modos:
+
+Modo Juez: interfaz simple para ingresar puntuaciones.
+
+Modo Administrador: control total de categorías, rondas, y resultados.
+
+Gráficos y tablas dinámicas para resultados y estadísticas.
+
+Sonido y animación de “Victoria” o “Empate” en Kumite.
+
+💾 Tecnologías sugeridas
+
+Frontend: React + TailwindCSS
+
+Backend: Node.js (Express) o Python (FastAPI)
+
+Base de datos: Firebase o MongoDB
+
+Exportación: jsPDF / PapaParse
+
+Hosting: Vercel, Render o Firebase Hosting
